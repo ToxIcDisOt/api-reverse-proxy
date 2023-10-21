@@ -1,7 +1,11 @@
 const express = require('express');
 const axios = require('axios');
+const cors = require('cors'); // Import the cors package
 const app = express();
 const port = 3000;
+
+// Use the cors middleware to enable CORS for your app
+app.use(cors());
 
 app.use(express.json());
 
