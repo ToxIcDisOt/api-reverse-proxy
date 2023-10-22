@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
-const cors = require('cors'); // Import the cors package
+const cors = require('cors');
+const rateLimit = require('express-rate-limit'); // Import the rate limiting package
 const app = express();
 const port = 3000;
 
@@ -8,6 +9,15 @@ const port = 3000;
 app.use(cors());
 
 app.use(express.json());
+
+// Apply rate limiting to the route
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 3700000000, // Max 100 requests per IP in 15 minutes
+});
+
+// Apply the rate limiter to your route
+app.use('/:word', limiter);
 
 // Define a route to fetch and simplify data from the external API
 app.get('/:word', async (req, res) => {
